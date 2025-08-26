@@ -8,6 +8,11 @@
         "https://www.youtube.com/*",
         "https://api.openai.com/*"
     ],
+    "options_page": "settings.html",
+    "options_ui": {
+        "page": "settings.html",
+        "open_in_tab": true
+    },
     "background": {
         "service_worker": "background.js"
     },
