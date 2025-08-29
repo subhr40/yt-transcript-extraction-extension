@@ -1,18 +1,20 @@
 {
     "manifest_version": 3,
-    "name": "YT Transcripts",
-    "version": "1.0",
-    "description": "Summarize Youtube videos and generate quizzes using AI",
-    "permissions": ["activeTab", "scripting", "storage", "runtime"],
+    "name": "YT Transcript Summarizer Pro",
+    "version": "2.0",
+    "description": "Advanced YouTube video summarizer with multiple formats, offline storage, and export capabilities",
+    "permissions": [
+        "activeTab", 
+        "scripting", 
+        "storage", 
+        "runtime",
+        "downloads"
+    ],
     "host_permissions": [
         "https://www.youtube.com/*",
-        "https://api.openai.com/*"
+        "https://api.openai.com/*",
+        "https://cdnjs.cloudflare.com/*"
     ],
-    "options_page": "settings.html",
-    "options_ui": {
-        "page": "settings.html",
-        "open_in_tab": true
-    },
     "background": {
         "service_worker": "background.js"
     },
@@ -24,10 +26,26 @@
             "128": "icons/icon128.png"
         }
     },
-    "content_scripts" : [
+    "content_scripts": [
         {
             "matches": ["*://www.youtube.com/*"],
-            "js": ["content.js"]
+            "js": ["content.js"],
+            "run_at": "document_idle"
         }
-    ]
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["storage.js", "export.js"],
+            "matches": ["<all_urls>"]
+        }
+    ],
+    "commands": {
+        "generate_summary": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+S",
+                "mac": "Command+Shift+S"
+            },
+            "description": "Generate summary for current video"
+        }
+    }
 }

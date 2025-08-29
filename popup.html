@@ -1,9 +1,123 @@
 <!DOCTYPE html>
 <html>
-  <head><title>YT Summarizer</title></head>
+  <head>
+    <title>YT Transcript Summarizer</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
   <body>
-    <button id="summarizeBtn">Summarize</button>
-    <div id="output"></div>
+    <div class="container">
+      <div class="header">
+        <h2>YT Transcript Summarizer</h2>
+        <div class="status-indicator" id="statusIndicator"></div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="generate">Generate</button>
+        <button class="tab" data-tab="saved">Saved</button>
+        <button class="tab" data-tab="settings">Settings</button>
+      </div>
+
+      <!-- Generate Summary Tab -->
+       <div class="tab-content active" id="generate-tab">
+        <div class="card">
+          <div class="summary-type-selector">
+            <label>📝 Summary Type:</label>
+            <div class="summary-type-grid">
+                <label class="type-option selected">
+                    <input type="radio" name="summaryType" value="bullet-points" checked>
+                    <span class="icon">•</span>
+                    <span class="label">Bullet Points</span>
+                </label>
+                <label class="type-option">
+                    <input type="radio" name="summaryType" value="paragraph">
+                    <span class="icon">📄</span>
+                    <span class="label">Paragraph</span>
+                </label>
+                <label class="type-option">
+                    <input type="radio" name="summaryType" value="outline">
+                    <span class="icon">📋</span>
+                    <span class="label">Outline</span>
+                </label>
+                <label class="type-option">
+                    <input type="radio" name="summaryType" value="qa">
+                    <span class="icon">❓</span>
+                    <span class="label">Q&A</span>
+                </label>
+                <label class="type-option">
+                    <input type="radio" name="summaryType" value="timeline">
+                    <span class="icon">⏱️</span>
+                    <span class="label">Timeline</span>
+                </label>
+                <label class="type-option">
+                    <input type="radio" name="summaryType" value="mindmap">
+                    <span class="icon">🧠</span>
+                    <span class="label">Mind Map</span>
+                </label>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+              <button class="btn btn-primary" id="summarizeBtn">
+                  🚀 Generate Summary
+              </button>
+              <button class="btn btn-secondary" id="autoSaveToggle">
+                  💾 Auto-save: ON
+              </button>
+          </div>
+        </div>
+
+        <div id="output" class="card" style="display: none;">
+          <div class="summary-output" id="summaryContent"></div>
+          <div class="export-options">
+            <button class="export-btn" id="exportedPdf">PDF</button>
+            <button class="export-btn" id="exportedMd">Markdown</button>
+            <button class="export-btn" id="saveSummary">Save</button>
+          </div>
+        </div>
+       </div>
+
+       <!-- Saved Summaries Tab -->
+      <div class="tab-content" id="saved-tab">
+        <div class="card">
+          <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search saved summaries...">
+          <div class="saved-summaries-list" id="savedSummariesList">
+              <div class="loading">Loading saved summaries...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div class="tab-content" id="settings-tab">
+        <div class="card">
+          <h4>Preferences</h4>
+          <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: 600;">Default Summary Type:</label>
+            <select id="defaultSummaryType" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #dee2e6;">
+              <option value="bullet-points">Bullet Points</option>
+              <option value="paragraph">Paragraph</option>
+              <option value="outline">Outline</option>
+              <option value="qa">Q&A</option>
+              <option value="timeline">Timeline</option>
+              <option value="mindmap">Mind Map</option>
+            </select>
+          </div>
+          <div style="margin-bottom: 15px;">
+            <label>
+              <input type="checkbox" id="autoSaveEnabled"> Auto Save Summaries
+            </label>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn btn-secondary" id="exportDataBtn">📤 Export Data</button>
+            <button class="btn btn-secondary" id="clearDataBtn">🗑️ Clear All</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <script src="storage.js"></script>
+    <script src="export.js"></script>
     <script src="popup.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   </body>

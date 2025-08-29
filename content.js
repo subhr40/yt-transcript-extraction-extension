@@ -1,34 +1,35 @@
 async function getTranscript() {
-  const ytInitialData = Array.from(document.querySelectorAll('script'))
-      .map(script => script.textContent)
-      .find(content => content?.includes('ytInitialPlayerResponse'));
-  
-      if(ytInitialData) {
-          try{
-              const jsonStr = ytInitialData
-              .split('ytInitialPlayerResponse = ')[1]
-              .replace(/;\s*(?:\n|$)/, '')
-              .trim();
+    try {
+        const ytInitialData = Array.from(document.querySelectorAll('script'))
+            .map(script => script.textContent)
+            .find(content => content?.includes('ytInitialPlayerResponse'));
+
+            if(ytInitialData) {
+                const jsonStr = ytInitialData
+                    .split('ytInitialPlayerResponse = ')[1]
+                    .replace(/;\s*(?:\n|$)/, '')
+                    .trim();
           
-              const cleanJson = jsonStr
-                  .replace(/'/g, '"')
-                  .replace(/,\s*}/g, '}')
-                  .replace(/,\s*]/g, ']');
+                const cleanJson = jsonStr
+                    .replace(/'/g, '"')
+                    .replace(/,\s*}/g, '}')
+                    .replace(/,\s*]/g, ']');
 
-              const data = JSON.parse(cleanJson);
+                const data = JSON.parse(cleanJson);
 
-              const captionTracks = 
-              data.captions?.playerCaptionsTracklistRenderer?.captionTracks ||
-              data.captions?.playerCaptionsRenderer?.captionTracks ||
-              [];
+                const captionTracks = 
+                data.captions?.playerCaptionsTracklistRenderer?.captionTracks ||
+                data.captions?.playerCaptionsRenderer?.captionTracks ||
+                [];
 
-              if(captionTracks.length > 0) {
-                  return captionTracks[0].baseUrl;
-              }
-      } catch(e) {
-          console.warn("Primary transcript extraction failed: ", e);
-      }
-  }
+                if(captionTracks.length > 0) {
+                    return captionTracks[0].baseUrl;
+                }
+            }
+    } catch(error) {
+        console.warn("Primary transcript extraction failed: ", error);
+    }
+    return null; // if primary transcript extraction fails
 }
 
 async function tryTranscriptButton() {
