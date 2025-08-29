@@ -1,11 +1,8 @@
-// Enhanced background.js with improved functionality
-
 function getTodayKey() {
   const today = new Date().toISOString().split("T")[0];
   return `usage_${today}`;
 }
 
-// Enhanced transcript fetching with better error handling
 async function fetchTranscript(url) {
   try {
       const controller = new AbortController();
@@ -109,7 +106,6 @@ function parseTextTranscript(text) {
       .trim();
 }
 
-// Enhanced usage tracking with Pro features
 async function trackUsage() {
   return new Promise((resolve) => {
       const todayKey = getTodayKey();
@@ -203,7 +199,6 @@ chrome.commands.onCommand.addListener((command) => {
   }
 });
 
-// Enhanced message handling
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.action === "fetchTranscript") {
       fetchTranscript(msg.url)
