@@ -406,16 +406,18 @@ async function migrateLegacyData(fromVersion, toVersion) {
 }
 
 // Periodic cleanup and maintenance
-chrome.alarms.create('maintenance', { 
-  delayInMinutes: 60, 
-  periodInMinutes: 24 * 60 // Daily
-});
+if (typeof chrome !== 'undefined' && chrome.alarms && typeof chrome.alarms.create === 'function') {
+    chrome.alarms.create('maintenance', { 
+        delayInMinutes: 60, 
+        periodInMinutes: 24 * 60 // Daily
+    });
 
-chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === 'maintenance') {
-      cleanupOldUsageData();
-  }
-});
+    chrome.alarms.onAlarm.addListener((alarm) => {
+        if (alarm.name === 'maintenance') {
+            cleanupOldUsageData();
+        }
+    });
+}
 
 // Handle extension uninstall (for analytics)
 chrome.runtime.setUninstallURL('https://your-website.com/uninstall-feedback');
